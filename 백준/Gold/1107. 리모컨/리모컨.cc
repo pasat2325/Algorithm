@@ -21,7 +21,7 @@ int main()
 	int diff = 1000000;
 	int result = abs(n - 100);
 
-	for (int i = 0; i < 10 + n * 2; i++)
+	for (int i = 0; i < 1000000; i++)
 	{
 		int temp = i;
 		int count = 0;
