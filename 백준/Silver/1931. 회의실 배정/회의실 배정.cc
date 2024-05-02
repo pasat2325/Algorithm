@@ -15,7 +15,7 @@ int main()
 	{
 		int p, q;
 		cin >> p >> q;
-		v.push_back(make_pair(q, p));
+		v.push_back(make_pair(q, p)); //끝나는 시간 기준 정렬을 위해서 q, p 순서
 	}
 
 	sort(v.begin(), v.end());
