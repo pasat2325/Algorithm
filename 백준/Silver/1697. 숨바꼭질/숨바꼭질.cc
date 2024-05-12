@@ -28,7 +28,6 @@ int bfs(int s, int e)
 			}
 		}
 	}
-	return visited[nextn];
 }
 
 
