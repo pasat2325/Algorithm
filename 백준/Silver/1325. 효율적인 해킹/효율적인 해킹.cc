@@ -1,50 +1,53 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
+#include <memory.h>
 
 using namespace std;
 
 int n, m;
-vector<int> tables[10002];
-bool visit[10002];
+vector<int> r[10001];
+bool visit[10001];
 
 int dfs(int start) {
 	visit[start] = true;
 	int ret = 1;
-	for (int i = 0; i < tables[start].size(); i++) {
-		if (visit[tables[start][i]]) continue;
-		ret += dfs(tables[start][i]);
 
+	for (int i = 0; i < r[start].size(); i++) {
+		if (visit[r[start][i]] == true) continue;
+		ret += dfs(r[start][i]);
 	}
 	return ret;
 }
 
-int main() {
+
+
+
+int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
-		
+
+
+	int maxv = 0;
+	int ret[10001];
+
 	cin >> n >> m;
-	
 	for (int i = 0; i < m; i++) {
 		int temp1, temp2;
 		cin >> temp1 >> temp2;
-		tables[temp2].push_back(temp1);
+		r[temp2].push_back(temp1);
 	}
 
-	int maxvalue = 0;
-	int ret[10002];
-	for (int i = 0; i <= n; i++) {
-		fill(&visit[0], &visit[0] + 10002, false);
+	for (int i = 1; i <= n; i++) {
+		memset(visit, false, sizeof(visit));
 		int temp = dfs(i);
 		ret[i] = temp;
-		maxvalue = max(temp, maxvalue);
+		maxv = max(temp, maxv);
 
 	}
 	
-	for (int i = 0; i <= n; i++) {
-		if (ret[i] == maxvalue) cout << i << " ";
-
+	for (int i = 1; i <= n; i++) {
+		if (ret[i] == maxv) cout << i << " ";
 	}
 	return 0;
 }
