@@ -28,26 +28,19 @@ int main()
 			}
 			else if (expression[i] == '+' || expression[i] == '-')
 			{
-				if (stack.top() == '*' || stack.top() == '/')
+				while (!stack.empty())
 				{
-					while (!stack.empty())
+					if (stack.top() == '(')
 					{
-						if (stack.top() == '(')
-						{
-							break;
-						}
-						else
-						{
-							cout << stack.top();
-							stack.pop();
-						}
+						break;
+					}
+					else
+					{
+						cout << stack.top();
+						stack.pop();
 					}
 				}
-				else if (stack.top() == '+' || stack.top() == '-')
-				{
-					cout << stack.top();
-					stack.pop();
-				}
+
 				stack.push(expression[i]);
 			}
 			else if (expression[i] == ')')
