@@ -61,6 +61,8 @@ int bfs(int startx, int starty)
 
 			/*
 			벽을 한번도 부수지 않은 경우 visited가 true라도 map[nx][ny] = -1이라면 방문이 가능하다.
+            벽을 한번도 부수지 않은 채로 (벽을 한번 부순채로 방문한 좌표)를 방문하는 경우 해당 좌표의 값을
+            -2로 변경하여 더이상 접근하지 않도록 한다.
 			*/
 			else if (!broke && nx >= 0 && ny >= 0 && nx < n && ny < m)
 			{
