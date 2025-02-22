@@ -3,26 +3,20 @@
 using namespace std;
 
 int dp[1001][1001];
-void comb(int n, int k)
+int comb(int n, int k)
 {
-	dp[1][1] = 1;
-	dp[1][0] = 1;
+	if (dp[n][k] != 0)
+		return dp[n][k];
+	else if (k == 0 || k == n)
+		return 1;
 
-	for (int i = 2; i <= n; i++)
-	{
-		for (int j = 0; j <= k; j++)
-		{
-			if (j == 0) dp[i][j] = 1;
-			else
-				dp[i][j] =( dp[i - 1][j - 1] + dp[i - 1][j]) % 10007;
-		}
-	}
+	return dp[n][k] = (comb(n - 1, k - 1) + comb(n - 1, k)) % 10007;
 }
 
 int main()
 {
 	int n, k;
 	cin >> n >> k;
-	comb(n,k);
-	cout << dp[n][k];
+	cout << comb(n,k);
+
 }
