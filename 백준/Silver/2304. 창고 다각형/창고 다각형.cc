@@ -1,68 +1,41 @@
 #include <iostream>
-#include <stack>
-#include <algorithm>
-
+#include <cstring>
 using namespace std;
-
-struct pillar {
-	int loc;
-	int h;
-};
-
-bool compare(pillar a, pillar b)
-{
-	return a.loc < b.loc;
-}
 
 int main()
 {
 	int n;
-	int result = 0;
-	stack<pillar> stack;
-	pillar highest;
-	pillar arr[1000];
-
 	cin >> n;
+	int arr[1001];
+	memset(arr, 0, sizeof(arr));
+	int max_h = 0 , max_pos = 0;
+
 	for (int i = 0; i < n; i++)
 	{
 		int l, h;
 		cin >> l >> h;
-
-		arr[i] = { l,h };
-	}
-
-	sort(arr, arr + n, compare);
-
-	stack.push(arr[0]);
-	highest = arr[0];
-
-	for (int i = 1; i < n; i++)
-	{
-		if (highest.h <= arr[i].h)
+		if (max_h < h)
 		{
-			result += highest.h * (arr[i].loc - highest.loc);
-			highest = arr[i];
-			while (!stack.empty())
-			{
-				stack.pop();
-			}
+			max_h = h;
+			max_pos = l;
 		}
-		stack.push(arr[i]);
+		arr[l] = h;
 	}
 
-	if (stack.size() >= 2)
+	int result = max_h;
+	int localMax = 0;
+	for (int i = 1; i < max_pos; i++)
 	{
-		pillar current = stack.top();
-		stack.pop();
-		while (stack.size() >= 1) {
-			if (current.h < stack.top().h)
-			{				
-				result += current.h * (current.loc - stack.top().loc);
-				current = stack.top();
-			}
-			else stack.pop();
-		}
+		localMax = max(arr[i], localMax);
+		result += localMax;
 	}
 
-	cout << result + highest.h;
+	localMax = 0;
+	for (int i = 1000; i > max_pos; i--)
+	{
+		localMax = max(arr[i], localMax);
+		result += localMax;
+	}
+
+	cout << result;
 }
