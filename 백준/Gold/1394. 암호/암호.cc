@@ -27,6 +27,8 @@ int solve(int index, int n)
 
 int main()
 {
+    ios_base::sync_with_stdio(false);
+	cin.tie(0);
 	cin >> str1 >> str2;
 
 	for (int i = 1; i <= str1.length(); i++)
