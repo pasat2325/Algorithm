@@ -4,7 +4,7 @@ using namespace std;
 int L, C;
 char a[26];
 int b[256];
-void solve(int start, string str)
+void solve(int start, string &str)
 {
 	if (str.length() == L)
 	{
@@ -22,7 +22,12 @@ void solve(int start, string str)
 		}
 		return;
 	}
-	for (int i = start; i < C; i++) solve(i + 1, (str + a[i]));
+	for (int i = start; i < C; i++)
+	{
+		str.push_back(a[i]);
+		solve(i + 1, str);
+		str.pop_back();
+	}
 }
 int main()
 {
@@ -38,5 +43,6 @@ int main()
 		a[i] = x;
 	}
 	sort(a, a + C);
-	solve(0, "");
+	string str;
+	solve(0,str);
 }
