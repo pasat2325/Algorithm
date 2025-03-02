@@ -9,7 +9,7 @@ void re(int j, int depth)
 {
 	if (depth == 6)
 	{
-		for (int i = 0; i < 6; i++)	cout << vec[i] << ' ';
+		for (int i = 0; i < 6; i++)	cout << ans[i] << ' ';
 		cout << "\n";
 		return;
 	}
@@ -17,9 +17,8 @@ void re(int j, int depth)
 	for (int i = j; i < n; i++)
 	{
 
-		vec.push_back(arr[i]);
+		ans[depth] = arr[i];
 		re(i + 1, depth + 1);
-		vec.pop_back();
 	}
 }
 int main()
