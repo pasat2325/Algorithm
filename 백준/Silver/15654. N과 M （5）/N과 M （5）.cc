@@ -2,48 +2,37 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-
-vector<int>in;
-vector<int>out;
-bool visited[9];
 int n, m;
-
-void dfs()
+int arr[8];
+int chk[8];
+vector<int>vec;
+void re(int j, int depth)
 {
-	if (out.size() == m)
+	if (depth == m)
 	{
-		for (int i : out)
-		{
-			cout << i << " ";
-		}
+		for (int i = 0; i < m; i++) cout << vec[i] << " ";
 		cout << "\n";
 		return;
 	}
-	for (int i = 0; i < n; i++)
+	for (int i = j; i < n; i++)
 	{
-		if (!visited[i]) {
-			out.push_back(in[i]);
-			visited[i] = true;
-			dfs();
-			out.pop_back();
-			visited[i] = false;
-		}
-
+		if (chk[i]) continue;
+		chk[i] = true;
+		vec.push_back(arr[i]);
+		re(0, depth + 1);
+		chk[i] = false;
+		vec.pop_back();
 	}
 }
-
 int main()
 {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
+	ios_base::sync_with_stdio(false);
 	cout.tie(NULL);
 	cin >> n >> m;
 	for (int i = 0; i < n; i++)
 	{
-		int x;
-		cin >> x;
-		in.push_back(x);
+		cin >> arr[i];
 	}
-	sort(in.begin(), in.end());
-	dfs();
+	sort(arr, arr + n);
+	re(0, 0);
 }
