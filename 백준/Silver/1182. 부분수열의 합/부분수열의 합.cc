@@ -7,17 +7,15 @@ int arr[20];
 int ans;
 void re(int j, int sum)
 {
-	if (sum == m && j != 0) ans++;
+	if (j == n)
+	{
+		if (sum == m) ans++;
+		return;
+	}
 
 	
-	for (int i = j; i < n; i++)
-	{
-
-		sum += arr[i];
-		re(i + 1, sum);
-		sum -= arr[i];
-
-	}
+	re(j + 1, sum);
+	re(j + 1, sum + arr[j]);
 }
 int main()
 {
@@ -30,5 +28,7 @@ int main()
 	}
 
 	re(0, 0);
-	cout << ans;
+	if (m == 0) cout << --ans;
+	else
+		cout << ans;
 }
