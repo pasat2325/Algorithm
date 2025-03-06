@@ -20,9 +20,9 @@ int bfs(int curx, int cury, int tarx, int tary, int cnt)
 			int nexty = y + nextp[i].second;
 			if (nextx >= 0 && nexty >= 0 && nextx < I && nexty < I && !visited[nextx][nexty])
 			{
-				if (nextx == tarx && nexty == tary) return c + 1;
+				if (nextx == tarx && nexty == tary) return c+1;
 				visited[nextx][nexty] = true;
-				q.push({ c + 1,{ nextx,nexty } });
+				q.push({ c+1,{ nextx,nexty } });
 			}
 		}
 	}
