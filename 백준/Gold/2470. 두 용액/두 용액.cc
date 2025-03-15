@@ -1,45 +1,30 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
 #include <math.h>
 #include <limits.h>
 using namespace std;
+int arr[100000];
+bool compare(int a, int b) {
+	return abs(a) < abs(b);
+}
 int main() {
 	int n;
 	cin >> n;
-	vector<int> vec(n);
-
 	for (int i = 0; i < n; i++) {
-		cin >> vec[i];
+		cin >> arr[i];
 	}
-	sort(vec.begin(), vec.end());
-	int s = 0;
-	int e = vec.size() - 1;
-	int anss = 0;
-	int anse = 0;
+	sort(arr, arr + n,compare);
+
 	int diff = INT_MAX;
-	while (s < e) {
-		if (vec[s] + vec[e] == 0) {
-			cout << vec[s] << " " << vec[e];
-			return 0;
-		}
-		else if (vec[s] + vec[e] < 0) {
-			if (abs(vec[s] + vec[e]) < diff) {
-				diff = abs(vec[s] + vec[e]);
-				anss = s;
-				anse = e;
-			}
-			s++;
-		}
-		else if (vec[s] + vec[e] > 0) {
-			if (abs(vec[s] + vec[e]) < diff) {
-				diff = abs(vec[s] + vec[e]);
-				anss = s;
-				anse = e;
-			}
-			e--;
+	int ans1, ans2;
+	for (int i = 0; i < n - 1; i++) {
+		int temp = abs(arr[i] + arr[i + 1]);
+		if (temp < diff) {
+			diff = temp;
+			ans1 = arr[i];
+			ans2 = arr[i + 1];
 		}
 	}
-	cout << vec[anss] << " " << vec[anse];
-	return 0;
+	if (ans1 > ans2) cout << ans2 << " " << ans1;
+	else cout << ans1 << " " << ans2;
 }
