@@ -20,13 +20,12 @@ int main() {
 		while (st < lt) {
 			int sum = v[st] + v[lt];
 			if (sum == t) {
-				flag = true;
+				cout << "yes " << v[st] << " " << v[lt] << "\n";
 				break;
 			}
 			else if (sum > t) lt--;
 			else if (sum < t) st++;
 		}
-		if (!flag) cout << "danger" << "\n";
-		else cout << "yes " << v[st] <<" " <<  v[lt] << "\n";
+		if (st >= lt) cout << "danger" << "\n";
 	}
 }
