@@ -14,7 +14,7 @@ int main() {
 	while (start <= end && end < n) {
 		if (sum < s) {
 			end++;
-			if (end == n) break;
+			//if (end == n) break;
 			sum += vec[end];
 		}
 		else if (sum >= s) {
