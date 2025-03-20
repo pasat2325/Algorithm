@@ -1,6 +1,6 @@
 #include <iostream>
 #include <algorithm>
-#define MAX_V 200000
+#define MAX_V 100001
 using namespace std;
 bool comp(pair<int, int> a, pair<int, int> b) {
 	int aa = a.first;
