@@ -10,11 +10,8 @@ int dx[4] = { 1,-1,0,0 };
 int dy[4] = { 0,0,1,-1 };
 int safeCnt;
 
-void bfs(int srcx, int srcy) {
-	queue<pair<int, int>> q;
-	q.push({ srcx, srcy });
+void bfs(queue<pair<int, int>> q) {
 	while (!q.empty()) {
-
 		int herex = q.front().first;
 		int herey = q.front().second;
 		q.pop();
@@ -37,10 +34,17 @@ void copy_map() {
 }
 
 int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
 	cin >> n >> m;
+	queue<pair<int, int>> q;
 	for (int i = 0; i < n; i++)
-		for (int j = 0; j < m; j++)
+		for (int j = 0; j < m; j++) {
 			cin >> map[i][j];
+			if (map[i][j] == 2)
+				q.push({ i,j });
+		}
 
 	int ans = 0;
 	for (int i = 0; i < n; i++) {
@@ -59,11 +63,8 @@ int main() {
 							int temp1 = map[v][p];
 							map[v][p] = 1;
 							copy_map();
-
-							for (int x = 0; x < n; x++) 
-								for (int y = 0; y < m; y++) {
-									if (tempMap[x][y] == 2) bfs(x, y);
-								}
+							
+							bfs(q);
 
 							safeCnt = 0;
 							for (int x = 0; x < n; x++)
