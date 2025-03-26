@@ -5,7 +5,7 @@ using namespace std;
 int n,m;
 int map[8][8];
 int tempMap[8][8];
-int visited[8][8];
+//int visited[8][8];
 int dx[4] = { 1,-1,0,0 };
 int dy[4] = { 0,0,1,-1 };
 int safeCnt;
@@ -26,28 +26,6 @@ void bfs(int srcx, int srcy) {
 				q.push({ nx,ny });
 			}
 		}
-	}
-}
-void dfs(int srcx, int srcy){
-	visited[srcx][srcy] = true;
-	for (int i = 0; i < 4; i++) {
-		int nx = srcx + dx[i];
-		int ny = srcy + dy[i];
-		if (nx >= 0 && ny >= 0 && nx < n && ny < m && tempMap[nx][ny] == 0 && !visited[nx][ny]) {
-			safeCnt++;
-			dfs(nx, ny);
-		}
-	}
-
-}
-
-void printMap() {
-	cout << "\n";
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			cout << map[i][j] << " ";
-		}
-		cout << "\n";
 	}
 }
 
@@ -88,18 +66,12 @@ int main() {
 								}
 
 							safeCnt = 0;
-							memset(visited, false, sizeof(visited));
 							for (int x = 0; x < n; x++)
 								for (int y = 0; y < m; y++) {
-									if (tempMap[x][y] == 0 && !visited[x][y]) {
-										safeCnt++;
-										dfs(x, y);
-									}
-
+									if (tempMap[x][y] == 0) safeCnt++;
 								}
-							if (ans < safeCnt) {
-								ans = safeCnt;
-							}
+							ans = safeCnt > ans ? safeCnt : ans;
+
 							map[v][p] = temp1;
 						}
 					}
