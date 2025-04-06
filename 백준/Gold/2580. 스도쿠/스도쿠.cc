@@ -14,69 +14,10 @@ vector<bool> exist(int x, int y){
 	for (int i = 0; i < 9; i++) {
 		if (map[i][y]) check[map[i][y] - 1] = true;
 	}
-	int x1, x2, y1, y2;
-	if (x <= 2) {
-		if (y <= 2) {
-			x1 = 0;
-			x2 = 3;
-			y1 = 0;
-			y2 = 3;
-		}
-		else if (y <= 5) {
-			x1 = 0;
-			x2 = 3;
-			y1 = 3;
-			y2 = 6;
-		}
-		else {
-			x1 = 0;
-			x2 = 3;
-			y1 = 6;
-			y2 = 9;
-		}
-	}
-	else if (x <= 5) {
-		if (y <= 2) {
-			x1 = 3;
-			x2 = 6;
-			y1 = 0;
-			y2 = 3;
-		}
-		else if (y <= 5) {
-			x1 = 3;
-			x2 = 6;
-			y1 = 3;
-			y2 = 6;
-		}
-		else {
-			x1 = 3;
-			x2 = 6;
-			y1 = 6;
-			y2 = 9;
-		}
-	}
-	else {
-		if (y <= 2) {
-			x1 = 6;
-			x2 = 9;
-			y1 = 0;
-			y2 = 3;
-		}
-		else if (y <= 5) {
-			x1 = 6;
-			x2 = 9;
-			y1 = 3;
-			y2 = 6;
-		}
-		else {
-			x1 = 6;
-			x2 = 9;
-			y1 = 6;
-			y2 = 9;
-		}
-	}
-	for (int i = x1; i < x2; i++) {
-		for (int j = y1; j < y2; j++) {
+	int sx = (x / 3) * 3;
+	int sy = (y / 3) * 3;
+	for (int i = sx; i < sx + 3; i++) {
+		for (int j = sy; j < sy + 3; j++) {
 			if (map[i][j]) check[map[i][j] - 1] = true;
 		}
 	}
