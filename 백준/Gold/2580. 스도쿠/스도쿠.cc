@@ -1,12 +1,14 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 int map[9][9];
 vector<pair<int,int>> emp;
+bool check[9];
 int t;
 // 스도쿠 규칙 확인
-vector<bool> exist(int x, int y){
-	vector<bool> check(9, false);
+void exist(int x, int y){
+	fill(check, check + 9, false);
 	for (int i = 0; i < 9; i++) {
 		if (map[x][i]) check[map[x][i] - 1] = true;
 	}
@@ -21,7 +23,6 @@ vector<bool> exist(int x, int y){
 			if (map[i][j]) check[map[i][j] - 1] = true;
 		}
 	}
-	return check;
 }
 void printMap() {
 	cout << "\n";
@@ -40,9 +41,11 @@ void solve(int depth) {
 	}
 	int x = emp[depth].first;
 	int y = emp[depth].second;
-	vector<bool> check = exist(x, y);
+	exist(x, y);
+	bool localcheck[9];
+	copy(check, check + 9, localcheck);
 	for (int i = 1; i <= 9; i++) {
-		if (!check[i - 1]) {
+		if (!localcheck[i - 1]) {
 			map[x][y] = i;
 			solve(depth + 1);
 			map[x][y] = 0;
