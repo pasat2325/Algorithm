@@ -8,7 +8,7 @@ char op[4] = { '*', '+', '-', '/' };
 int s, t;
 vector<string> v;
 map<long long, int> m;
-int length = INT_MAX;
+int length = 29;
 
 void solve(long long n, string ops) {
 	if (n == t) {
