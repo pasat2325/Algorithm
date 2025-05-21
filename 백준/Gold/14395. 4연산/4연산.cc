@@ -58,7 +58,6 @@ int main() {
 	solve(s, "");
 	if (v.empty()) cout << -1 << "\n";
 	else {
-		sort(v.begin(), v.end());
 		cout << v[0] << "\n";
 	}
 	return 0;
