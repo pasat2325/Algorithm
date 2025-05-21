@@ -7,14 +7,12 @@
 using namespace std;
 char op[4] = { '*', '+', '-', '/' };
 int s, t;
-vector<string> v;
+string result;
 map<long long, int> m;
-int length = 30; // 1 * 2^k >= 1e9, k = 29.90
 
 void solve(long long n, string ops) {
 	if (n == t) {
-		v.clear();
-		v.push_back(ops);
+		result = ops;
 		return;
 	}
 	if (n == 0) return;
@@ -51,9 +49,9 @@ int main() {
 		return 0;
 	}
 	solve(s, "");
-	if (v.empty()) cout << -1 << "\n";
+	if (result.empty()) cout << -1 << "\n";
 	else {
-		cout << v[0] << "\n";
+		cout << result << "\n";
 	}
 	return 0;
 }
