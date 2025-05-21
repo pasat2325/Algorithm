@@ -3,30 +3,25 @@
 #include <map>
 #include <algorithm>
 #include <climits>
+#include <cmath>
 using namespace std;
 char op[4] = { '*', '+', '-', '/' };
 int s, t;
 vector<string> v;
 map<long long, int> m;
-int length = 29;
+int length = 30; // 1 * 2^k >= 1e9, k = 29.90
 
 void solve(long long n, string ops) {
 	if (n == t) {
-		if (ops.length() < length) {
-			length = ops.length();
-			v.clear();
-			v.push_back(ops);
-		}
-		else if (ops.length() == length) {
-			v.push_back(ops);
-		}
+		v.clear();
+		v.push_back(ops);
 		return;
 	}
 	if (n == 0) return;
 
 	for (int i = 0; i < 4; i++) {
 		long long nx = n;
-		if (op[i] == '*' && nx != 1 && nx <= 1e9) {
+		if (op[i] == '*' && nx != 1 && nx <= sqrt(1e9)) {
 			nx *= nx;
 		}
 		else if (op[i] == '+' && nx <= 1e9) {
