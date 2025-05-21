@@ -35,7 +35,7 @@ void solve(long long n, string ops) {
 		else if (op[i] == '-' && nx > 0) {
 			nx = 0;
 		}
-		else if (op[i] == '/' && nx > 0 && nx != 1) {
+		else if (op[i] == '/' && nx > 0 ) {
 			nx = 1;
 		}
 		else continue;
