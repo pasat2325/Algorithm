@@ -19,7 +19,7 @@ int main() {
 	}
 	for (int i = 0; i < n; i++) {
 		int temp = in[i];
-		for (int j = 2; j <= max_x / temp; j++) {
+		for (int j = 2; j*temp <= max_x; j++) {
 			int xx = temp * j;
 			if (check[xx]) {
 				arr[xx]--;
