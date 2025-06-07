@@ -1,29 +1,14 @@
-// 카데인 dp
 #include <iostream>
-#include <vector>
 using namespace std;
-int dp[100000];
 int main() {
-	int n;
-	cin >> n;
-	vector<int> v;
-	for (int i = 0; i < n; i++) {
-		int x;
+	int n, x, gmx, lmx;
+	cin >> n >> x;
+	gmx = x;
+	lmx = x;
+	for (int i = 1; i < n; i++) {
 		cin >> x;
-		v.push_back(x);
-	}
-	int gmx, lmx;
-	for (int i = 0; i < v.size(); i++) {
-		if (i == 0) {
-			dp[0] = v[0];
-			lmx = v[0];
-			gmx = v[0];
-		}
-		else { 
-			dp[i] = max(v[i], lmx + v[i]);
-			lmx = dp[i];
-			gmx = max(gmx, lmx);
-		}
+		lmx = max(x, lmx + x);
+		gmx = max(lmx, gmx);
 	}
 	cout << gmx;
 }
