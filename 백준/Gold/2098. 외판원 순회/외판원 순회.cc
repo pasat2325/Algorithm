@@ -1,43 +1,47 @@
 #include <iostream>
 #define MAX_N 16
 #define MAX_V 65536
-#define INF 1e8
+#define INF 1e9
+
 using namespace std;
 
 int n;
 int w[MAX_N][MAX_N];
 int dp[MAX_N][MAX_V];
 
-bool visited(int bits, int city) {
+bool has_visited(int bits, int city) {
 	if (bits & (1 << city)) return true;
-	return false;
+	else return false;
 }
 int visit(int bits, int city) {
 	return (bits | (1 << city));
 }
 
-int tsp(int here, int bits) {
-	if (bits == (1 << n) - 1) return (w[here][0] != 0) ? w[here][0] : INF;
+int tsp(int here, int state) {
+	if (state == (1 << n) - 1) {
+		if (w[here][0]) {
+			return w[here][0];
+		}
+		return INF;
+	}
+	if (dp[here][state] != 0) return dp[here][state];
+	dp[here][state] = INF;
+	for (int nx = 0; nx < n; nx++) {
+		if (has_visited(state, nx)) continue;
 
-	if (dp[here][bits] != -1) return dp[here][bits];
-	dp[here][bits] = INF;
-	for (int next = 0; next < n; next++) {
-		if (!visited(bits, next) && w[here][next] != 0) {
-			int cost = tsp(next, visit(bits, next)) + w[here][next];
-			if (cost < dp[here][bits]) dp[here][bits] = cost;	
+		if (w[here][nx]) {
+			int ncost = w[here][nx] + tsp(nx, visit(state, nx));
+			dp[here][state] = min(dp[here][state], ncost);
 		}
 	}
-	return dp[here][bits];
+	return dp[here][state];
 }
 int main() {
-	cin >> n;
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			cin >> w[i][j];
-		}
-	}
-	for (int i = 0; i < n; i++) {
-		fill_n(dp[i], size(dp[i]), -1);
-	}
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cin >> n;	
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++) cin >> w[i][j];
+
 	cout << tsp(0, 1);
 }
