@@ -1,9 +1,11 @@
 #include <iostream>
 #include <climits>
 using namespace std;
-const static long long mx = 5e9;
-long long dp[500][500]; // dp[i][j] == i번 행렬부터 j번 행렬까지 최소 연산 횟수
+const static long long mx = INT_MAX;
+int dp[500][500]; // dp[i][j] == i번 행렬부터 j번 행렬까지 최소 연산 횟수
 int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
 	int n;
 	int rc[501];
 	cin >> n;
