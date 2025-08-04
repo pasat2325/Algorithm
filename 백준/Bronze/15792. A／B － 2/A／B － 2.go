@@ -12,7 +12,7 @@ func main(){
     a,_ := new(big.Float).SetString(aStr)
     b,_ := new(big.Float).SetString(bStr)
 
-    prec := uint(1999)
+    prec := uint(4000)
     a.SetPrec(prec)
     b.SetPrec(prec)
     
