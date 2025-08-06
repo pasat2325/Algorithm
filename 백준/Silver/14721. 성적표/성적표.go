@@ -21,7 +21,7 @@ func main() {
 		fmt.Fscan(in, &studyTime[i], &score[i])
 	}
 
-	var minRss uint64 = 1e15
+	var minRss uint64 = 1e12
 	var aAns, bAns int
 
 	for a := 1; a <= 100; a++ {
