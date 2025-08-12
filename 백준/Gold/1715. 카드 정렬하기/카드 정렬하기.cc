@@ -7,18 +7,18 @@ int main() {
 	cin.tie(0);
 	int n;
 	cin >> n;
-	priority_queue<long long> pq;
+	priority_queue<int> pq;
 	for (int i = 0; i < n; i++) {
 		int x;
 		cin >> x;
 		pq.push(-x);
 	}
 
-	long long ans = 0;
+	int ans = 0;
 	while (pq.size() > 1) {
-		long long a = -pq.top();
+		int a = -pq.top();
 		pq.pop();
-		long long b = -pq.top();
+		int b = -pq.top();
 		pq.pop();
 		ans += a + b;
 		pq.push(-(a + b));
@@ -28,4 +28,3 @@ int main() {
 	cout << ans;
 
 }
-
