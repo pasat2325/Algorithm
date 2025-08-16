@@ -46,25 +46,25 @@ int main() {
 				tree[pos] = (tree[pos << 1] * tree[pos << 1 | 1]) % MOD;
 		}
 		else {
-			long long result = 1;
-			int qia, qib;
-			cin >> qia >> qib;
-			int tia = qia + leaf_start - 1;
-			int tib = qib + leaf_start - 1;
-
-			while (tia <= tib) {
-				if (tia % 2 == 1) {
-					result *= tree[tia];
-					result %= MOD;
+			int l, r; cin >> l >> r;
+			int L = leaf_start + l - 1;
+			int R = leaf_start + r - 1;
+			long long res = 1;
+			while (L <= R) {
+				if (L & 1) {
+					res *= tree[L];
+					res %= MOD;
+					L++;
 				}
-				if (tib % 2 == 0) {
-					result *= tree[tib];
-					result %= MOD;
+				if (!(R & 1)) {
+					res *= tree[R];
+					res %= MOD;
+					R--;
 				}
-				tia = (tia + 1) / 2;
-				tib = (tib - 1) / 2;
+				L >>= 1;
+				R >>= 1;
 			}
-			cout << result << "\n";
+			cout << res << "\n";
 		}
 	}
 
