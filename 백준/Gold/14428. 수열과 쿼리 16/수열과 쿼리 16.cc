@@ -20,16 +20,27 @@ int main() {
 	}
 	int tree_size = leaf_start << 1;
 
-	int* tree = (int*)malloc(tree_size * sizeof(int));
+	pair<int,int>* tree = (pair<int,int>*)malloc(tree_size * sizeof(pair<int,int>));
 	
-	for (int i = 0; i < tree_size; i++) tree[i] = INT_MAX;
+	for (int i = 0; i < tree_size; i++) {
+		tree[i].first = INT_MAX;
+		tree[i].second = INT_MAX;
+	}
 
 	for (int i = 0; i < n; i++) {
-		tree[i + leaf_start] = arr[i];
+		tree[i + leaf_start].first = arr[i];
+		tree[i + leaf_start].second = i;
 	}
 
 	for (int i = leaf_start - 1; i >= 1; i--) {
-		tree[i] = min(tree[i << 1], tree[i << 1 | 1]);
+		if (tree[i << 1].first > tree[i << 1 | 1].first) {
+			tree[i].first = tree[i << 1 | 1].first;
+			tree[i].second = tree[i << 1 | 1].second;
+		}
+		else {
+			tree[i].first = tree[i << 1].first;
+			tree[i].second = tree[i << 1].second;
+		}
 	}
 
 	int q;
@@ -45,10 +56,16 @@ int main() {
 
 			int pos = i + leaf_start - 1;
 
-			tree[pos] = v;
-			arr[i - 1] = v;
+			tree[pos].first = v;
 			for (pos >>= 1; pos >= 1; pos >>= 1) {
-				tree[pos] = min(tree[pos << 1], tree[pos << 1 | 1]);
+				if (tree[pos << 1].first > tree[pos << 1 | 1].first) {
+					tree[pos].first = tree[pos << 1 | 1].first;
+					tree[pos].second = tree[pos << 1 | 1].second;
+				}
+				else {
+					tree[pos].first = tree[pos << 1].first;
+					tree[pos].second = tree[pos << 1].second;
+				}
 			}
 		}
 		else {
@@ -58,25 +75,36 @@ int main() {
 			int L = i + leaf_start - 1;
 			int R = j + leaf_start - 1;
 
-			// 1. 해당 구간에서 최소값을 구한다.
 			int mn = INT_MAX;
+			int idx = INT_MAX;
 			while (L <= R) {
 				if (L & 1) {
-					mn = min(mn, tree[L++]);
+					if (mn > tree[L].first) {
+						mn = tree[L].first;
+						idx = tree[L].second;
+					}
+					else if (mn == tree[L].first) {
+						mn = tree[L].first;
+						idx = min(idx, tree[L].second);
+					}
+					L++;
 				}
 				if (!(R & 1)) {
-					mn = min(mn, tree[R--]);
+					if (mn >  tree[R].first) {
+						mn = tree[R].first;
+						idx = tree[R].second;
+					}
+					else if (mn == tree[R].first) {
+						mn = tree[R].first;
+						idx = min(idx, tree[R].second);
+					}
+					R--;
 				}
 				L >>= 1;
 				R >>= 1;
 			}
-			//cout << mn << "\n";
-			// 2.원본 배열에서 해당 값의 인덱스를 구한다.
-			int index;
-			for (index = i; index < j; index++) {
-				if (arr[index - 1] == mn) { break; }
-			}
-			cout << index << "\n";
+
+			cout << idx + 1 << "\n";
 		}
 	}
 }
