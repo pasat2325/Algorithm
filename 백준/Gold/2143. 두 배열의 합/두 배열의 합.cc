@@ -1,11 +1,11 @@
 #include <iostream>
-#include <map>
+#include <unordered_map>
 using namespace std;
 int a_arr[1001];
 int b_arr[1001];
 int a_prefix[1001][1001];
 int b_prefix[1001][1001];
-map<int, int> M;
+unordered_map<int, int> M;
 
 int main() {
 	ios_base::sync_with_stdio(false);
