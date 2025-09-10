@@ -7,21 +7,18 @@ int main() {
 	int n, x; cin >> n >> x;
 	int* guests = (int*)malloc(sizeof(int) * n);
 	for (int i = 0; i < n; i++) {
-		int g; cin >> g;
-		if (i == 0)
-			guests[i] = g;
-		else guests[i] = g + guests[i - 1];
+		cin >> guests[i];
 	}
 	int ans1 = 0;
 	int ans2 = 1;
-	for (int i = 0; i <= n - x; i++) {
-		int j = i + x - 1;
-		int temp;
-		if (i == 0) {
-			temp = guests[j];
-		}
-		else temp = guests[j] - guests[i - 1];
+	for (int i = 0; i < x; i++) {
+		ans1 += guests[i];
+	}
 
+	int temp = ans1;
+	for (int i = 1; i <= n - x; i++) {
+		int j = i + x - 1;
+		temp = temp + guests[j] - guests[i - 1];
 		if (ans1 <= temp) {
 			if (ans1 == temp) {
 				ans2++;
