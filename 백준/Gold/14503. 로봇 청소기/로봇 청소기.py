@@ -8,39 +8,25 @@ dx = [-1, 0, 1, 0]
 dy = [0, 1, 0, -1]
 
 res = 0
-curx = r
-cury = c
-curd = d
-while(True):
-    
-    if(mp[curx][cury] == 0):
-        mp[curx][cury] = 2
+def solve(x, y, d):
+    global res
+    if mp[x][y] == 0:
+        mp[x][y] = 2
         res += 1
-
-    need_clean = False    
+    
     for _ in range(4):
-        curd = (curd + 3) % 4
-        nx = curx + dx[curd]
-        ny = cury + dy[curd]
-
-        if(nx >= 0 and ny >= 0 and nx < n and ny < m and mp[nx][ny] == 0):
-            need_clean = True
-            curx = nx
-            cury = ny
-            break
+        d = (d + 3) % 4
+        nx = x + dx[d]
+        ny = y + dy[d]
+        if nx >= 0 and ny >= 0 and nx < n and ny < m and mp[nx][ny] == 0:
+            solve(nx, ny, d)
+            return
     
-    if need_clean:
-        continue
+    nx = x - dx[d]
+    ny = y - dy[d]
+    if nx >=0 and ny >= 0 and nx < n and ny < m and mp[nx][ny] != 1:
+        solve(nx, ny, d)
 
-    back_dir = (curd + 2) % 4
-    bx = curx + dx[back_dir]
-    by = cury + dy[back_dir]
-
-    if (bx >= 0 and by >= 0 and bx < n and by < m and mp[bx][by] == 1):
-        break
-    
-    curx = bx
-    cury = by
-
+solve(r,c,d)
 print(res)
 
