@@ -2,7 +2,7 @@ import sys
 input = sys.stdin.readline
 n = int(input())
 arr = [int(input()) for _ in range(n)]
-arr_set = set([arr[i] + arr[j] for i in range(n) for j in range(i, n)])
+arr_set = {arr[i] + arr[j] for i in range(n) for j in range(i, n)}
 
 arr.sort()
 
