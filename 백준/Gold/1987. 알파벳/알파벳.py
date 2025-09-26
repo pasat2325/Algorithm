@@ -9,25 +9,19 @@ dx = [1,-1,0,0]
 dy = [0,0,1,-1]
 
 ans = 0
-def dfs(x, y, cnt):
+def dfs(x, y, status, cnt):
     global ans
     ans = max(ans, cnt)
-
-    idx = ord(M[x][y]) - ord('A')
-    visited[idx] = True
 
     for i in range(4):
         nx = x + dx[i]
         ny = y + dy[i]
         
-        if nx < 0 or ny < 0 or nx >= n or ny >= m or visited[ord(M[nx][ny]) - ord('A')]:
-            continue
-
-        dfs(nx, ny, cnt + 1)
+        if nx >= 0 and ny >= 0 and nx < n and ny < m:
+            bit = 1 << (ord(M[nx][ny]) - ord('A'))
+            if not status & bit:
+                dfs(nx, ny, status | bit, cnt + 1)
     
-    visited[idx] = False
-    
-
-dfs(0,0,1)
+dfs(0,0,1 << (ord(M[0][0]) - ord('A')), 1)
 
 print(ans)
