@@ -1,27 +1,29 @@
-import sys
-input = sys.stdin.readline
+def solve():
+    H, W = map(int, input().split())
+    board = [input().strip() for _ in range(H)]
+    DIRS = [(-1,0),(1,0),(0,-1),(0,1)]
 
-n,m = map(int, input().split())
-M = [list(input().strip()) for i in range(n)]
-visited = [False] * 26
+    start_mask = 1 << (ord(board[0][0]) - 65)
+    stack = [(0, 0, start_mask, 1)]
+    seen = {(0, 0, start_mask)} 
+    ans = 1
 
-dx = [1,-1,0,0]
-dy = [0,0,1,-1]
+    while stack:
+        y, x, mask, d = stack.pop()
+        if d > ans:
+            ans = d
+            if ans == 26: break
+        for dy, dx in DIRS:
+            ny, nx = y + dy, x + dx
+            if 0 <= ny < H and 0 <= nx < W:
+                bit = 1 << (ord(board[ny][nx]) - 65)
+                if mask & bit:  # 이미 쓴 알파벳
+                    continue
+                state = (ny, nx, mask | bit)
+                if state in seen:
+                    continue
+                seen.add(state)
+                stack.append((ny, nx, mask | bit, d + 1))
+    print(ans)
 
-ans = 0
-def dfs(x, y, status, cnt):
-    global ans
-    ans = max(ans, cnt)
-
-    for i in range(4):
-        nx = x + dx[i]
-        ny = y + dy[i]
-        
-        if nx >= 0 and ny >= 0 and nx < n and ny < m:
-            bit = 1 << (ord(M[nx][ny]) - ord('A'))
-            if not status & bit:
-                dfs(nx, ny, status | bit, cnt + 1)
-    
-dfs(0,0,1 << (ord(M[0][0]) - ord('A')), 1)
-
-print(ans)
+solve()
