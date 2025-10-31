@@ -37,7 +37,7 @@ for _ in range(t):
     while min_q and d[min_q[0]] == 0:
         heapq.heappop(min_q)
 
-    if not max_q or not min_q:
+    if not max_q:
         print("EMPTY")
     else:
         print(-max_q[0], min_q[0])
