@@ -110,12 +110,6 @@ int bfs(int redx, int redy, int bluex, int bluey) {
 				continue;
 			}
 
-
-			//빨간 구슬이 빠진 뒤 파란 구슬이 같이 빠졌다.
-			if (nextredp == nextbluep) {
-				continue;
-			}
-
 			visited[nextredp][nextbluep] = true;
 			q.push({{ nextredp, nextbluep }, cur_cnt + 1});
 		}
