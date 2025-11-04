@@ -1,95 +1,86 @@
 #include <iostream>
 #include <cstring>
-#include <vector>
 using namespace std;
-int n, m;
 
+int n, m;
 int grid[1000][1000];
-int ans_grid[1000][1000];
-bool visited[1000][1000];
+int parent[1'000'001];
+int set_size[1'000'001];
 int dx[4] = { 1,-1,0,0 };
 int dy[4] = { 0,0,1,-1 };
+int used_set[4];
 
-// 나올수 있는 0 영역의 최대 개수는 -> 모든 0이 서로 인접하지 않은 경우 == n * m / 2 즉, 1'000'000 / 2 = 500'000개
-int zero_area[500'001];
-int used_area[4];
+void make_set(int idx) {
+	parent[idx] = idx;
+	set_size[idx] = 1;
+}
 
-// 0 영역 크기 탐색 dfs
-int idx = 1;
-int area_size = 1;
-void dfs(int x, int y, int idx) {
-	grid[x][y] = idx;
-	for (int i = 0; i < 4; i++) {
-		int nx = x + dx[i];
-		int ny = y + dy[i];
+int find_root(int idx) {
+	if (parent[idx] == idx) return idx;
+	return parent[idx] = find_root(parent[idx]);
+}
 
-		if (nx < 0 || ny < 0 || nx >= n || ny >= m || grid[nx][ny] == -1 || visited[nx][ny]) continue;
+void unite(int a, int b) {
+	int a_root = find_root(a);
+	int b_root = find_root(b);
 
-		visited[nx][ny] = true;
-		area_size++;
-		dfs(nx, ny, idx);
+	if (a_root != b_root) {
+		parent[b_root] = a_root;
+		set_size[a_root] += set_size[b_root];
 	}
 }
 
-
-
 int main() {
-	ios_base::sync_with_stdio(false);
+    ios_base::sync_with_stdio(false);
 	cin.tie(0);
 	cout.tie(0);
-
 	cin >> n >> m;
-	
 	for (int i = 0; i < n; i++) {
 		string str; cin >> str;
 		for (int j = 0; j < m; j++) {
 			int cur = str[j] - '0';
-			if (cur == 1) grid[i][j] = -1;
-			else grid[i][j] = 0;
+			grid[i][j] = cur;
+
+			if (grid[i][j] == 1) continue;
+
+			make_set(m * i + j + 1);
+
+			if (i - 1 >= 0 && grid[i - 1][j] == 0) {
+				unite(m * i + j + 1, m * (i - 1) + j + 1);
+			}
+
+			if (j - 1 >= 0 && grid[i][j - 1] == 0) {
+				unite(m * i + j + 1, m * i + j);
+			}
 		}
 	}
-	
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < m; j++) {
-			if (visited[i][j] || grid[i][j] == -1) continue;
-			area_size = 1;
-			visited[i][j] = true;
-			dfs(i, j, idx);
-			zero_area[idx++] = area_size;
-		}
-	}
-
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			if (grid[i][j] != -1) continue;
-
-			memset(used_area, 0, sizeof(int) * 4);
+			if (grid[i][j] == 0) {
+				cout << grid[i][j];
+				continue;
+			}
 			
+			memset(used_set, 0, sizeof(int) * 4);
 			for (int k = 0; k < 4; k++) {
 				int nx = i + dx[k];
 				int ny = j + dy[k];
 
-				if (nx < 0 || ny < 0 || nx >= n || ny >= m || grid[nx][ny] == -1) continue;
+				if (nx < 0 || ny < 0 || nx >= n || ny >= m || grid[nx][ny] == 1) continue;
 
-				int cur_area = grid[nx][ny];
+				int root = find_root(m * nx + ny + 1);
 				bool used = false;
+				
 				for (int l = 0; l < 4; l++) {
-					if (used_area[l] == cur_area) {
-						used = true;
-						break;
-					}
+					if (used_set[l] == root) used = true;
 				}
 				if (used) continue;
-				ans_grid[i][j] += zero_area[cur_area];
-				used_area[k] = cur_area;
-			}
-		}
-	}
 
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			if (grid[i][j] == -1) cout << (ans_grid[i][j] + 1) % 10;
-			else cout << 0;
+				used_set[k] = root;
+				grid[i][j] += set_size[root];
+			}
+
+			cout << grid[i][j] % 10;
 		}
 		cout << "\n";
 	}
