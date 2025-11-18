@@ -18,13 +18,19 @@ ll modpow(ll a, ll b, ll mod) {
 
 
 int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
 	while (true) {
 		int p, a; cin >> p >> a;
 		if (p == 0 && a == 0) break;
 
 		bool is_prime = true;
 		for (int i = 2; i <= sqrt(p); i++) {
-			if (p % i == 0) is_prime = false;
+			if (p % i == 0) {
+				is_prime = false;
+				break;
+			}
 		}
 
 		if (is_prime) {
