@@ -31,9 +31,7 @@ int main() {
 		// 널빤지가 덮어야할 거리 remain
 		int remain = end - prev;
 		
-		int need;
-		if (remain % L == 0) need = remain / L;
-		else need = remain / L + 1;
+		int need = (remain + L - 1) / L;
 
 		cnt += need;
 		prev += need * L;
