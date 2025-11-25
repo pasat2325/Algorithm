@@ -1,37 +1,42 @@
 #include <iostream>
-#include <queue>
+#include <vector>
 #include <algorithm>
 using namespace std;
 int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(0);
-	int n, l; cin >> n >> l;
-	priority_queue<pair<int, int>> holes;
-	for (int i = 0; i < n; i++) {
-		int x, y; cin >> x >> y;
-		holes.push({ -x, -y });
-	}
+	int N, L; cin >> N >> L;
+	vector<pair<int, int>> holes(N);
 
-	int prev = -1;
+	for (int i = 0; i < N; i++) {
+		int start, end; cin >> start >> end;
+		holes[i] = { start, end };
+	}
+	sort(holes.begin(), holes.end());
+
 	int cnt = 0;
+	int prev = 0; // 이전까지 널빤지가 커버하는 끝 좌표
+	for (int i = 0; i < N; i++) {
+		int start = holes[i].first;
+		int end = holes[i].second;
 
-	while (!holes.empty()) {
-		int hole_x = -holes.top().first;
-		int hole_y = -holes.top().second;
+		// 이전 널빤지가 지금 웅덩이의 끝까지 커버하는 경우
+		if (prev >= end) {
+			continue;
+		}
 
-		if (prev > hole_x) {
-			if (prev < hole_y) {
-				cnt += 1;
-				prev += l;
-			}
-			else {
-				holes.pop();
-			}
+		// 이전 널빤지와 지금 웅덩이 사이에 거리가 존재하는 경우
+		if (prev < start) {
+			prev = start;
 		}
-		else if (prev <= hole_x) {
-			cnt += 1;
-			prev = hole_x + l;
-		}
+
+		// 널빤지가 덮어야할 거리 remain
+		int remain = end - prev;
+		
+		int need;
+		if (remain % L == 0) need = remain / L;
+		else need = remain / L + 1;
+
+		cnt += need;
+		prev += need * L;
 	}
-	cout << cnt;
+    cout << cnt;
 }
