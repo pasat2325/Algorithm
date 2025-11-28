@@ -15,8 +15,7 @@ def lan_count(x):
     cnt = 0
     
     for l in lans:
-        if l >= x:
-            cnt += l // x
+        cnt += l // x
     return cnt
 
 def binary_search():
