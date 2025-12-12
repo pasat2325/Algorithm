@@ -1,24 +1,26 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <math.h>
+#include <cmath>
+
 using namespace std;
 
-int parent[100];
+const int MAX_N = 100;
+int parent[MAX_N];
 
 struct Edge {
-	float dist;
+	double dist;
 	int start;
 	int end;
 };
 
-bool comp(Edge a, Edge b) {
+bool comp(const Edge &a, const Edge &b) {
 	return a.dist < b.dist;
 }
 
 int find_parent(int x) {
 	if (x == parent[x]) return x;
-	else return(find_parent(parent[x]));
+	return parent[x] = find_parent(parent[x]);
 }
 
 void union_set(int x, int y) {
@@ -32,26 +34,25 @@ void union_set(int x, int y) {
 
 
 int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+
 	int n; cin >> n;
-	vector<pair<float, float>> stars(n);
+	
+	vector<pair<double, double>> stars(n);
 	
 	for (int i = 0; i < n; i++) {
-		float x, y; cin >> x >> y;
-		stars[i] = { x,y };
-	}
+		cin >> stars[i].first >> stars[i].second;
+ 	}
 	
 	vector<Edge> adj;
+	adj.reserve(n * n);
 
 	for (int i = 0; i < n; i++) {
-		float sx = stars[i].first;
-		float sy = stars[i].second;
 		for (int j = i + 1; j < n; j++) {
-			float nx = stars[j].first;
-			float ny = stars[j].second;
-
-			float dx = abs(nx - sx);
-			float dy = abs(ny - sy);
-			float dist = sqrt(dx * dx + dy * dy);
+			double dx = stars[i].first - stars[j].first;
+			double dy = stars[i].second - stars[j].second;
+			double dist = hypot(dx, dy);
 
 			adj.push_back({ dist, i ,j });
 		}
@@ -63,20 +64,22 @@ int main() {
 		parent[i] = i;
 	}
 
-	float ans = 0;
+	double ans = 0;
+	int edges_count = 0;
+
 	for (int i = 0; i < adj.size(); i++) {
-		float dist = adj[i].dist;
+		double dist = adj[i].dist;
 		int start = adj[i].start;
 		int end = adj[i].end;
 
-		if (find_parent(start) == find_parent(end)) {
-			continue;
+		if (find_parent(start) != find_parent(end)) {
+			union_set(start, end);
+			ans += dist;
+			edges_count += 1;
 		}
-
-		union_set(start, end);
-		ans += dist;
+		if (edges_count == n - 1) break;
 	}
 	
 	printf("%.2f", ans);
-	
+	return 0;
 }
