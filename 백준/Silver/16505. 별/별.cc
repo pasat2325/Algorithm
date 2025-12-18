@@ -11,7 +11,7 @@ void solve(int x, int y, int depth) {
 		return;
 	}
 
-	int d = pow(2, depth - 1);
+	int d = 1 << (depth - 1);
 	solve(x, y, depth - 1);
 	solve(x, y + d, depth - 1);
 	solve(x + d, y, depth - 1);
