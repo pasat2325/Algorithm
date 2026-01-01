@@ -19,17 +19,7 @@ int main() {
 
 	sort(v.begin(), v.end(), comp);
 
-	if (N == P) {
-		if (v[N] == S) cout << -1;
-		else {
-			for (int i = 1; i <= N; i++) {
-				if (v[i - 1] == S) {
-					cout << i;
-					return 0;
-				}
-			}
-		}
-	}
+	if (N == P && v[N] == S) cout << -1;
 	else {
 		for (int i = 1; i <= P; i++) {
 			if (v[i - 1] == S) {
